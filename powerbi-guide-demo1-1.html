@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Power BI Desktop: Complete Beginner's Guide</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            animation: fadeInDown 0.8s ease;
+        }
+        
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+            animation: fadeInUp 0.8s ease 0.2s both;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .section {
+            margin-bottom: 50px;
+            animation: fadeIn 0.6s ease;
+        }
+        
+        .section-title {
+            color: #667eea;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .section-number {
+            background: #667eea;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        .step {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 20ignon;
+            margin: 20px 0;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .step:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
+        }
+        
+        .step-number {
+            color: #667eea;
+            font-weight: bold;
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+        
+        .interface-element {
+            background: #e3f2fd;
+            color: #1976d2;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-weight: 600;
+            display: inline-block;
+            margin: 0 2px;
+        }
+        
+        .tip {
+            background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(253, 203, 110, 0.3);
+        }
+        
+        .tip::before {
+            content: "💡 TIP";
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            background: #fdcb6e;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+        
+        .visual-representation {
+            background: #fff;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        .ui-mockup {
+            background: #f5f5f5;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+            position: relative;
+        }
+        
+        .ribbon {
+            display: flex;
+            gap: 10px;
+            padding: 10px;
+            background: #e8e8e8;
+            border-bottom: 1px solid #ccc;
+            margin: -15px -15px 15px -15px;
+        }
+        
+        .ribbon-tab {
+            padding: 8px 15px;
+            background: white;
+            border: 1px solid #ccc;
+            border-radius: 4px 4px 0 0;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .ribbon-tab:hover {
+            background: #667eea;
+            color: white;
+        }
+        
+        .ribbon-tab.active {
+            background: #667eea;
+            color: white;
+        }
+        
+        .key-point {
+            background: linear-gradient(135deg, #a8e6cf 0%, #81c784 100%);
+            color: #2e7d32;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-weight: 500;
+        }
+        
+        .warning {
+            background: linear-gradient(135deg, #ffccbc 0%, #ff8a65 100%);
+            color: #d84315;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-weight: 500;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .navigation-hint {
+            background: #f0f4ff;
+            border: 2px dashed #667eea;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        
+        ul {
+            margin-left: 30px;
+            margin-top: 10px;
+        }
+        
+        li {
+            margin: 8px 0;
+        }
+        
+        .button-visual {
+            display: inline-block;
+            padding: 8px 16px;
+            background: #667eea;
+            color: white;
+            border-radius: 4px;
+            font-weight: 600;
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 Power BI Desktop: Complete Beginner's Guide</h1>
+            <p>Learn to create your first report with data visualization step by step</p>
+        </div>
+        
+        <div class="content">
+            <!-- Introduction -->
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-number">📋</span>
+                    Before You Start
+                </h2>
+                <div class="key-point">
+                    <strong>What you'll learn:</strong> How to import data, create relationships between tables, and build interactive visualizations in Power BI Desktop.
+                </div>
+                <div class="navigation-hint">
+                    <strong>Interface Overview:</strong> Power BI Desktop has three main views:
+                    <ul>
+                        <li><strong>Report View</strong> - Where you create and design visualizations</li>
+                        <li><strong>Table View</strong> - Where you see your raw data</li>
+                        <li><strong>Model View</strong> - Where you manage relationships between tables</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Section 1: Opening Power BI -->
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-number">1</span>
+                    Opening Power BI Desktop
+                </h2>
+                
+                <div class="step">
+                    <div class="step-number">Step 1.1: Launch Power BI Desktop</div>
+                    <p>When you open Power BI Desktop for the first time, you'll see the <span class="interface-element">Report View</span> by default. This is your main workspace for creating visualizations.</p>
+                </div>
+                
+                <div class="ui-mockup">
+                    <div class="ribbon">
+                        <div class="ribbon-tab active">Home</div>
+                        <div class="ribbon-tab">Insert</div>
+                        <div class="ribbon-tab">Modeling</div>
+                        <div class="ribbon-tab">View</div>
+                        <div class="ribbon-tab">Help</div>
+                    </div>
+                    <p style="margin-top: 15px;"><strong>Visual representation of the Power BI ribbon interface</strong></p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">Step 1.2: Understand the Ribbon</div>
+                    <p>Look at the top of your screen. You'll see a ribbon with different tabs:</p>
+                    <ul>
+                        <li><span class="interface-element">Home</span> - Contains basic functions like getting data and publishing</li>
+                        <li><span class="interface-element">Insert</span> - Focused on adding visuals and other elements</li>
+                        <li><span class="interface-element">Modeling</span> - For managing data relationships and calculations</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Section 2: Importing CSV Data -->
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-number">2</span>
+                    Importing Your First Data (CSV File)
+                </h2>
+                
+                <div class="step">
+                    <div class="step-number">Step 2.1: Click Get Data</div>
+                    <p>In the <span class="interface-element">Home</span> ribbon (top left area), locate and click the <span class="button-visual">Get Data</span> button.</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">Step 2.2: Select Data Source Type</div>
+                    <p>A dropdown menu will appear with many options. Select <span class="interface-element">Text/CSV</span> from the list.</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">Step 2.3: Browse for Your File</div>
+                    <p>Navigate to your file location and select the <strong>FactSales.csv</strong> file. This contains sales transaction data for our example company (AdventureWorks).</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">Step 2.4: Preview and Load</div>
+                    <p>A preview window will open showing you the first rows of your data. Review it quickly, then click the <span class="button-visual">Load</span> button at the bottom right.</p>
+                </div>
+                
+                <div class="tip">
+                    <p>After loading, look at the right side of your screen. You'll see a <span class="interface-element">Data pane</span> (also called Fields pane) that now shows your FactSales table with all its columns listed underneath.</p>
+                </div>
+            </div>
+
+            <!-- Section 3: Viewing Raw Data -->
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-number">3</span>
+                    Viewing Your Raw Data
+                </h2>
+                
+                <div class="step">
+                    <div class="step-number">Step 3.1: Switch to Table View</div>
+                    <p>Look at the left side of your screen. You'll see three icons vertically aligned:</p>
+                    <ul>
+                        <li>📊 Report View (currently selected)</li>
+                        <li>📋 Table View (click this one)</li>
+                        <li>🔗 Model View</li>
+                    </ul>
+                    <p>Click the middle icon to switch to <span class="interface-element">Table View</span>.</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">Step 3.2: Explore Your Data</div>
+                    <p>You can now see your FactSales data in a spreadsheet-like format. Notice the <span class="interface-element">Table Tools</span> ribbon appears at the top, giving you options to format and manipulate your data.</p>
+                </div>
+            </div>
+
+            <!-- Section 4: Adding Excel Data -->
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-number">4</span>
+                    Adding a Second Table (Excel File)
+                </h2>
+                
+                <div class="step">
+                    <div class="step-number">Step 4.1: Get More Data</div>
+                    <p>While still in Table View, click <span class="button-visual">Get Data</span> again from the Home ribbon.</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">Step 4.2: Select Excel</div>
+                    <p>This time, choose <span class="interface-element">Excel</span> from the dropdown menu.</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">Step 4.3: Select Your Excel File</div>
+                    <p>Browse and select the file containing <strong>DimProducts</strong> table. This file contains product details.</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">Step 4.4: Choose the Correct Sheet</div>
+                    <p>In the preview window, you'll see all sheets in the Excel file listed on the left. Select the sheet containing your DimProducts data, then click <span class="button-visual">Load</span>.</p>
+                </div>
+                
+                <div class="key-point">
+                    Now you have two tables loaded: FactSales and DimProducts. They will both appear in your Data pane on the right.
+                </div>
+            </div>
+
+            <!-- Section 5: Understanding Relationships -->
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-number">5</span>
+                    Managing Table Relationships
+                </h2>
+                
+                <div class="step">
+                    <div class="step-number">Step 5.1: Switch to Model View</div>
+                    <p>Click the bottom icon (🔗) on the left sidebar to enter <span class="interface-element">Model View</span>.</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">Step 5.2: See Auto-Created Relationships</div>
+                    <p>You'll see both tables displayed as boxes with their fields listed. Power BI often automatically creates relationships when it finds matching field names (like "ProductKey" in both tables). These appear as lines connecting the tables.</p>
+                </div>
+                
+                <div class="navigation-hint">
+                    <strong>Managing Relationships:</strong>
+                    <ul>
+                        <li>To <strong>delete</strong> a relationship: Right-click on the connecting line and select Delete</li>
+                        <li>To <strong>create</strong> a relationship: Click and drag from a field in one table to the matching field in another table</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Section 6: Creating Visualizations -->
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-number">6</span>
+                    Creating Your First Visualization
+                </h2>
+                
+                <div class="step">
+                    <div class="step-number">Step 6.1: Return to Report View</div>
+                    <p>Click the top icon (📊) on the left sidebar to go back to <span class="interface-element">Report View</span>.</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">Step 6.2: Create a Bar Chart</div>
+                    <p>In the Data pane (right side), find and click the checkbox next to <span class="interface-element">Sales Amount</span> field from the FactSales table. Power BI will automatically create a bar chart on your canvas.</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">Step 6.3: Resize and Position</div>
+                    <p>Click on the chart to select it. You'll see resize handles (small circles) around it. Drag these to resize, or click and drag the entire chart to move it.</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">Step 6.4: Add Categories to Your Chart</div>
+                    <p>With the chart still selected:</p>
+                    <ol>
+                        <li>In the Data pane, expand <span class="interface-element">DimProducts</span> table (click the arrow next to it)</li>
+                        <li>Find the <span class="interface-element">Category</span> field</li>
+                        <li>Drag it to the <span class="interface-element">X-axis</span> field in the Visualizations pane (middle right panel)</li>
+                    </ol>
+                    <p>Your bar chart now shows sales by product category!</p>
+                </div>
+                
+                <div class="tip">
+                    <p>Hover over any bar in your chart to see a tooltip with exact sales figures for that category.</p>
+                </div>
+            </div>
+
+            <!-- Section 7: Adding More Visuals -->
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-number">7</span>
+                    Adding a Card Visualization
+                </h2>
+                
+                <div class="step">
+                    <div class="step-number">Step 7.1: Click on Empty Canvas</div>
+                    <p>First, click on an empty area of your report canvas (not on the existing chart).</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">Step 7.2: Select Card Visual</div>
+                    <p>In the <span class="interface-element">Visualizations pane</span>, find and click the Card icon (looks like a number in a box: 123).</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">Step 7.3: Add Sales Amount</div>
+                    <p>With the card selected, check the <span class="interface-element">Sales Amount</span> field again from the Data pane. The card will now display the total sales amount.</p>
+                </div>
+                
+                <div class="key-point">
+                    <strong>Interactive Visuals:</strong> Click on any bar in your bar chart - notice how the card value updates to show only that category's total! Click the bar again to reset.
+                </div>
+            </div>
+
+            <!-- Section 8: Changing Visual Types -->
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-number">8</span>
+                    Changing Visualization Types
+                </h2>
+                
+                <div class="step">
+                    <div class="step-number">Step 8.1: Select Your Bar Chart</div>
+                    <p>Click on your bar chart to select it.</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">Step 8.2: Choose a Different Visual</div>
+                    <p>In the Visualizations pane, click on a different chart type, such as the <span class="interface-element">Treemap</span> icon. Your chart instantly transforms!</p>
+                </div>
+                
+                <div class="tip">
+                    <p>You can experiment with different visualization types to find the best way to present your data. Common options include pie charts, line graphs, and tables.</p>
+                </div>
+            </div>
+
+            <!-- Section 9: Managing Pages -->
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-number">9</span>
+                    Working with Report Pages
+                </h2>
+                
+                <div class="step">
+                    <div class="step-number">Step 9.1: Add a New Page</div>
+                    <p>Look at the bottom of your screen. Next to "Page 1" tab, you'll see a <span class="interface-element">+ (plus sign)</span>. Click it to add a new blank page.</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">Step 9.2: Delete a Page</div>
+                    <p>To remove a page, click the <span class="interface-element">X</span> on the page tab you want to delete.</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">Step 9.3: Navigate Between Pages</div>
+                    <p>Simply click on any page tab to switch to that page.</p>
+                </div>
+            </div>
+
+            <!-- Section 10: Loading Existing Reports -->
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-number">10</span>
+                    Opening Existing Reports
+                </h2>
+                
+                <div class="step">
+                    <div class="step-number">Step 10.1: Access File Menu</div>
+                    <p>Click <span class="interface-element">File</span> in the top-left corner of Power BI Desktop.</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">Step 10.2: Open a Report</div>
+                    <p>Select <span class="interface-element">Open</span>, then choose <span class="interface-element">Browse this device</span>.</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">Step 10.3: Select Your File</div>
+                    <p>Navigate to and select any existing Power BI report file (.pbix file) to open it.</p>
+                </div>
+            </div>
+
+            <!-- Congratulations Section -->
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-number">✅</span>
+                    Congratulations!
+                </h2>
+                <div class="key-point" style="text-align: center; font-size: 1.1em;">
+                    <p><strong>You've completed your first Power BI Desktop tutorial!</strong></p>
+                    <p style="margin-top: 15px;">You now know how to:</p>
+                    <ul style="text-align: left; display: inline-block; margin-top: 10px;">
+                        <li>Import data from CSV and Excel files</li>
+                        <li>View and explore your raw data</li>
+                        <li>Create and manage table relationships</li>
+                        <li>Build interactive visualizations</li>
+                        <li>Work with multiple report pages</li>
+                    </ul>
+                </div>
+                
+                <div class="tip" style="margin-top: 30px;">
+                    <p><strong>Next Steps:</strong> Practice these skills by creating your own report with different data sources. Try experimenting with other visualization types and explore the formatting options in the Visualizations pane!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
