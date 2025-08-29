@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Power BI Desktop: Slicers, Tables & Advanced Visualizations</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            animation: fadeInDown 0.8s ease;
+        }
+        
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+            animation: fadeInUp 0.8s ease 0.2s both;
+        }
+        
+        .part-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.3);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .section {
+            margin-bottom: 50px;
+            animation: fadeIn 0.6s ease;
+        }
+        
+        .section-title {
+            color: #f5576c;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #f5576c;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .section-number {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        .step {
+            background: #fef9ff;
+            border-left: 4px solid #f5576c;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .step:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(245, 87, 108, 0.2);
+        }
+        
+        .step-number {
+            color: #f5576c;
+            font-weight: bold;
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+        
+        .interface-element {
+            background: #ffe0ec;
+            color: #d81b60;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-weight: 600;
+            display: inline-block;
+            margin: 0 2px;
+        }
+        
+        .tip {
+            background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(253, 203, 110, 0.3);
+        }
+        
+        .tip::before {
+            content: "💡 TIP";
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            background: #fdcb6e;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+        
+        .visual-representation {
+            background: #fff;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        .ui-mockup {
+            background: #f5f5f5;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+            position: relative;
+        }
+        
+        .slicer-mockup {
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 20px auto;
+            max-width: 250px;
+        }
+        
+        .slicer-header {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .slicer-item {
+            padding: 8px;
+            margin: 5px 0;
+            background: #f8f8f8;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .slicer-item:hover {
+            background: #f5576c;
+            color: white;
+        }
+        
+        .slicer-item.selected {
+            background: #f5576c;
+            color: white;
+        }
+        
+        .key-point {
+            background: linear-gradient(135deg, #a8e6cf 0%, #81c784 100%);
+            color: #2e7d32;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-weight: 500;
+        }
+        
+        .warning {
+            background: linear-gradient(135deg, #ffccbc 0%, #ff8a65 100%);
+            color: #d84315;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-weight: 500;
+        }
+        
+        .important-note {
+            background: linear-gradient(135deg, #e1bee7 0%, #ba68c8 100%);
+            color: #4a148c;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-weight: 500;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .navigation-hint {
+            background: #fff0f5;
+            border: 2px dashed #f5576c;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        
+        ul {
+            margin-left: 30px;
+            margin-top: 10px;
+        }
+        
+        li {
+            margin: 8px 0;
+        }
+        
+        .button-visual {
+            display: inline-block;
+            padding: 8px 16px;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            border-radius: 4px;
+            font-weight: 600;
+            margin: 5px;
+        }
+        
+        .chart-comparison {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 20px;
+            background: #fafafa;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        
+        .chart-box {
+            text-align: center;
+        }
+        
+        .arrow {
+            font-size: 2em;
+            color: #f5576c;
+        }
+        
+        .table-mockup {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+        
+        .table-header {
+            background: #f5f5f5;
+            display: flex;
+            padding: 10px;
+            font-weight: bold;
+            border-bottom: 2px solid #ddd;
+        }
+        
+        .table-cell {
+            flex: 1;
+            padding: 5px 10px;
+        }
+        
+        .table-row {
+            display: flex;
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .table-row:hover {
+            background: #fef9ff;
+        }
+        
+        .icon-legend {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        
+        .icon-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 15px;
+            background: #f8f8f8;
+            border-radius: 8px;
+        }
+        
+        .icon-box {
+            width: 30px;
+            height: 30px;
+            background: #f5576c;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📊 Power BI Desktop: Part 2</h1>
+            <p>Master Slicers, Tables & Advanced Visualizations</p>
+            <span class="part-badge">PART 2 - ADVANCED FEATURES</span>
+        </div>
+        
+        <div class="content">
+            <!-- Prerequisites -->
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-number">📋</span>
+                    Before You Start
+                </h2>
+                <div class="important-note">
+                    <strong>Prerequisites:</strong> This guide assumes you've completed Part 1 and have:
+                    <ul>
+                        <li>FactSales.csv loaded</li>
+                        <li>DimProducts table loaded</li>
+                        <li>A treemap or column chart created with Sales Amount and Category</li>
+                    </ul>
+                </div>
+                <div class="navigation-hint">
+                    <strong>Files You'll Need:</strong>
+                    <ul>
+                        <li><strong>DimSalesTerritory.csv</strong> - Contains territory information (Region, Country, Group)</li>
+                        <li>Your existing Power BI file from Part 1</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Section 1: Modifying Visualizations -->
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-number">1</span>
+                    Converting and Enhancing Your Chart
+                </h2>
+                
+                <div class="step">
+                    <div class="step-number">Step 1.1: Select Your Existing Treemap</div>
+                    <p>Click on your treemap visualization (or whatever chart you created in Part 1) to select it. You'll see the selection handles appear around it.</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">Step 1.2: Change to Clustered Column Chart</div>
+                    <p>In the <span class="interface-element">Visualizations pane</span> (right side), click the <span class="interface-element">Clustered Column Chart</span> icon. It looks like vertical bars grouped together.</p>
+                    <div class="icon-legend">
+                        <div class="icon-item">
+                            <div class="icon-box">📊</div>
+                            <span>Clustered Column Chart</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">Step 1.3: Add Total Product Cost for Comparison</div>
+                    <p>With the chart still selected:</p>
+                    <ol>
+                        <li>In the <span class="interface-element">Data pane</span>, find the <span class="interface-element">Total Product Cost</span> field from FactSales</li>
+                        <li>Check the box next to it OR drag it to the <span class="interface-element">Y-axis</span> section in the Visualizations pane</li>
+                    </ol>
+                </div>
+                
+                <div class="key-point">
+                    <strong>What You'll See:</strong> Your chart now shows two bars for each category - one for Sales Amount and one for Total Product Cost. A legend appears above the chart showing which color represents which measure.
+                </div>
+                
+                <div class="navigation-hint">
+                    <strong>Understanding the Visualizations Pane:</strong>
+                    <ul>
+                        <li>Both numerical fields are automatically placed in the <span class="interface-element">Y-axis</span> section</li>
+                        <li>Category remains in the <span class="interface-element">X-axis</span> section</li>
+                        <li>The <span class="interface-element">Legend</span> section shows what differentiates the bars</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Section 2: Adding Territory Data -->
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-number">2</span>
+                    Loading Sales Territory Data
+                </h2>
+                
+                <div class="step">
+                    <div class="step-number">Step 2.1: Understanding the Need</div>
+                    <p>First, let's check what we have. Switch to <span class="interface-element">Table View</span> (middle icon on left sidebar). Notice that FactSales has a column called <span class="interface-element">SalesTerritoryKey</span> - this is just a number that needs more context.</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">Step 2.2: Load DimSalesTerritory</div>
+                    <p>From the <span class="interface-element">Home</span> ribbon:</p>
+                    <ol>
+                        <li>Click <span class="button-visual">Get Data</span></li>
+                        <li>Select <span class="interface-element">Text/CSV</span></li>
+                        <li>Browse and select <strong>DimSalesTerritory.csv</strong></li>
+                        <li>Click <span class="button-visual">Load</span> in the preview window</li>
+                    </ol>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">Step 2.3: Verify the Data</div>
+                    <p>In <span class="interface-element">Table View</span>, click on DimSalesTerritory in the Data pane. You'll see it contains:</p>
+                    <ul>
+                        <li><strong>SalesTerritoryKey</strong> - The matching key</li>
+                        <li><strong>Region</strong> - Specific regions</li>
+                        <li><strong>Country</strong> - Countries served</li>
+                        <li><strong>Group</strong> - Territory groups</li>
+                    </ul>
+                </div>
+                
+                <div class="tip">
+                    <p>This dimension table provides the descriptive information for the territory keys in your fact table, allowing you to analyze sales by location!</p>
+                </div>
+            </div>
+
+            <!-- Section 3: Checking Relationships -->
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-number">3</span>
+                    Verifying Table Relationships
+                </h2>
+                
+                <div class="step">
+                    <div class="step-number">Step 3.1: Switch to Model View</div>
+                    <p>Click the <span class="interface-element">Model View</span> icon (bottom icon on left sidebar).</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">Step 3.2: Check Auto-Created Relationship</div>
+                    <p>You should see a line connecting FactSales to DimSalesTerritory through the <span class="interface-element">SalesTerritoryKey</span> field. Power BI automatically detected this relationship!</p>
+                </div>
+                
+                <div class="key-point">
+                    <strong>No Action Needed!</strong> If the relationship exists (shown as a connecting line), you're all set. If not, drag SalesTerritoryKey from one table to the other to create it manually.
+                </div>
+            </div>
+
+            <!-- Section 4: Creating a Slicer -->
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-number">4</span>
+                    Adding a Slicer for Interactive Filtering
+                </h2>
+                
+                <div class="step">
+                    <div class="step-number">Step 4.1: Return to Report View</div>
+                    <p>Click the top icon on the left sidebar to go back to <span class="interface-element">Report View</span>.</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">Step 4.2: Add a Slicer Visual</div>
+                    <p>Click on an empty area of your report canvas, then in the Visualizations pane, click the <span class="interface-element">Slicer</span> icon (looks like a funnel or filter).</p>
+                    <div class="icon-legend">
+                        <div class="icon-item">
+                            <div class="icon-box">🔽</div>
+                            <span>Slicer Icon</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">Step 4.3: Configure the Slicer</div>
+                    <p>With the slicer selected:</p>
+                    <ol>
+                        <li>Expand <span class="interface-element">DimSalesTerritory</span> in the Data pane</li>
+                        <li>Check the box next to <span class="interface-element">Country</span> field</li>
+                        <li>The slicer now shows all available countries</li>
+                    </ol>
+                </div>
+                
+                <div class="slicer-mockup">
+                    <div class="slicer-header">Country</div>
+                    <div class="slicer-item">United States</div>
+                    <div class="slicer-item selected">Canada</div>
+                    <div class="slicer-item">France</div>
+                    <div class="slicer-item">Germany</div>
+                    <div class="slicer-item">Australia</div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">Step 4.4: Use the Slicer</div>
+                    <p>Click on <span class="interface-element">Canada</span> in the slicer. Watch how all your visualizations update to show only Canadian data!</p>
+                </div>
+                
+                <div class="tip">
+                    <p><strong>Multi-Filtering:</strong> After selecting Canada in the slicer, click on any bar in your column chart to filter even further by category. This creates a powerful drill-down experience!</p>
+                </div>
+            </div>
+
+            <!-- Section 5: Creating a Table Visualization -->
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-number">5</span>
+                    Adding a Table Visualization
+                </h2>
+                
+                <div class="step">
+                    <div class="step-number">Step 5.1: Click Empty Canvas Space</div>
+                    <p><strong>Important:</strong> Click on an empty area of your canvas first. If you don't, you'll modify your existing chart instead of creating a new visual!</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">Step 5.2: Select Table Visual</div>
+                    <p>In the Visualizations pane, click the <span class="interface-element">Table</span> icon (looks like a grid).</p>
+                    <div class="icon-legend">
+                        <div class="icon-item">
+                            <div class="icon-box">⊞</div>
+                            <span>Table Icon</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">Step 5.3: Add Fields to Your Table</div>
+                    <p>With the table selected, add these fields by checking their boxes in the Data pane:</p>
+                    <ol>
+                        <li>From DimSalesTerritory: <span class="interface-element">Group</span></li>
+                        <li>From DimProducts: <span class="interface-element">Product</span></li>
+                        <li>From DimProducts: <span class="interface-element">Color</span></li>
+                        <li>From DimProducts: <span class="interface-element">List Price</span></li>
+                        <li>From DimProducts: <span class="interface-element">Standard Cost</span></li>
+                    </ol>
+                </div>
+                
+                <div class="table-mockup">
+                    <div class="table-header">
+                        <div class="table-cell">Group</div>
+                        <div class="table-cell">Product</div>
+                        <div class="table-cell">Color</div>
+                        <div class="table-cell">List Price</div>
+                        <div class="table-cell">Standard Cost</div>
+                    </div>
+                    <div class="table-row">
+                        <div class="table-cell">North America</div>
+                        <div class="table-cell">Mountain-100</div>
+                        <div class="table-cell">Black</div>
+                        <div class="table-cell">$3,374.99</div>
+                        <div class="table-cell">$1,898.09</div>
+                    </div>
+                    <div class="table-row">
+                        <div class="table-cell">North America</div>
+                        <div class="table-cell">Road-150</div>
+                        <div class="table-cell">Red</div>
+                        <div class="table-cell">$3,578.27</div>
+                        <div class="table-cell">$2,171.29</div>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">Step 5.4: Rearrange Table Columns</div>
+                    <p>In the Visualizations pane, under the <span class="interface-element">Columns</span> section, you can drag fields up or down to reorder them. Arrange them in a logical order that makes sense for your analysis.</p>
+                </div>
+                
+                <div class="key-point">
+                    <strong>Interactive Tables:</strong> Your table is connected to other visuals! When you select Canada in the slicer or click a bar in the chart, the table automatically filters to show only relevant data.
+                </div>
+            </div>
+
+            <!-- Section 6: Adding Titles and Text -->
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-number">6</span>
+                    Adding Professional Titles
+                </h2>
+                
+                <div class="step">
+                    <div class="step-number">Step 6.1: Insert a Text Box</div>
+                    <p>Go to the <span class="interface-element">Insert</span> ribbon at the top and click <span class="button-visual">Text box</span>.</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">Step 6.2: Add Your Title</div>
+                    <p>Click and drag on the canvas to create a text box at the top of your report. Type your title, such as:</p>
+                    <p style="text-align: center; font-size: 1.5em; font-weight: bold; margin: 15px 0;">"Sales Analysis by Territory and Product"</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">Step 6.3: Format Your Title</div>
+                    <p>With the text selected:</p>
+                    <ul>
+                        <li>Highlight the text and increase font size (try 24-28pt)</li>
+                        <li>Make it bold using the formatting toolbar</li>
+                        <li>Center align if desired</li>
+                        <li>You can change the font color to match your theme</li>
+                    </ul>
+                </div>
+                
+                <div class="tip">
+                    <p>Position your title at the top of the page and resize the text box to span the width of your report for a professional look.</p>
+                </div>
+            </div>
+
+            <!-- Section 7: Page Management -->
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-number">7</span>
+                    Renaming Your Report Page
+                </h2>
+                
+                <div class="step">
+                    <div class="step-number">Step 7.1: Locate Page Tab</div>
+                    <p>Look at the bottom of your Power BI window. You'll see tabs like "Page 1", "Page 2", etc.</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">Step 7.2: Rename the Tab</div>
+                    <p>Right-click on the current page tab and select <span class="interface-element">Rename Page</span>. Type a descriptive name like "Territory Analysis" or "Sales Dashboard".</p>
+                </div>
+                
+                <div class="navigation-hint">
+                    <strong>Best Practice:</strong> Always rename your pages to match their content. This makes navigation easier when you have multiple pages in your report.
+                </div>
+            </div>
+
+            <!-- Section 8: Putting It All Together -->
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-number">8</span>
+                    Your Interactive Dashboard
+                </h2>
+                
+                <div class="key-point">
+                    <strong>What You've Built:</strong>
+                    <ul>
+                        <li>A clustered column chart comparing Sales Amount vs Product Cost by Category</li>
+                        <li>A country slicer for geographic filtering</li>
+                        <li>A detailed table showing product information</li>
+                        <li>Professional titles and formatting</li>
+                    </ul>
+                </div>
+                
+                <div class="important-note">
+                    <strong>How Your Dashboard Works:</strong>
+                    <ol>
+                        <li><strong>Select a Country:</strong> Use the slicer to filter all visuals by country</li>
+                        <li><strong>Click a Category:</strong> Click any bar in the chart to filter by that category</li>
+                        <li><strong>View Details:</strong> The table updates automatically to show relevant products</li>
+                        <li><strong>Reset Filters:</strong> Click selected items again to deselect and reset the view</li>
+                    </ol>
+                </div>
+                
+                <div class="warning">
+                    <strong>Common Mistakes to Avoid:</strong>
+                    <ul>
+                        <li>Forgetting to click empty canvas before adding new visuals (modifies existing instead)</li>
+                        <li>Not checking if relationships exist in Model View</li>
+                        <li>Adding too many fields to a table (keep it readable)</li>
+                        <li>Forgetting to rename page tabs for clarity</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Practice Section -->
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-number">✨</span>
+                    Practice Exercises
+                </h2>
+                
+                <div class="tip" style="background: linear-gradient(135deg, #d4fc79 0%, #96e6a1 100%);">
+                    <p><strong>Now it's your turn! Try these exercises:</strong></p>
+                    <ol style="margin-top: 15px;">
+                        <li><strong>Add Another Slicer:</strong> Create a slicer for "Region" from DimSalesTerritory</li>
+                        <li><strong>Try Different Charts:</strong> Convert your column chart to a line chart or area chart</li>
+                        <li><strong>Add More Data:</strong> Load the DimDate.csv file and analyze sales over time</li>
+                        <li><strong>Create a Card:</strong> Add a card showing total Order Quantity</li>
+                        <li><strong>Format Your Report:</strong> Add backgrounds, borders, and colors to make it visually appealing</li>
+                    </ol>
+                </div>
+                
+                <div class="navigation-hint">
+                    <strong>Available Data Files for Practice:</strong>
+                    <ul>
+                        <li><strong>DimDate.csv</strong> - Add time-based analysis</li>
+                        <li><strong>DimReseller.csv</strong> - Analyze by business type and location</li>
+                        <li><strong>DimCustomers.csv</strong> - Customer demographics analysis</li>
+                        <li><strong>DimSalesOrder.csv</strong> - Order-level details</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Congratulations -->
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-number">🎯</span>
+                    Congratulations!
+                </h2>
+                <div class="key-point" style="text-align: center; font-size: 1.1em; background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); color: #333;">
+                    <p><strong>You've mastered advanced Power BI features!</strong></p>
+                    <p style="margin-top: 15px;">You can now:</p>
+                    <ul style="text-align: left; display: inline-block; margin-top: 10px;">
+                        <li>Create complex multi-field visualizations</li>
+                        <li>Use slicers for interactive filtering</li>
+                        <li>Build detailed table views</li>
+                        <li>Connect multiple dimension tables</li>
+                        <li>Design professional-looking reports</li>
+                        <li>Create cross-filtering interactive dashboards</li>
+                    </ul>
+                </div>
+                
+                <div class="tip" style="margin-top: 30px;">
+                    <p><strong>Next Steps:</strong> Experiment with the other dimension tables provided. Try creating a complete dashboard with multiple pages, each focusing on different aspects of the business (Sales by Time, Customer Analysis, Reseller Performance, etc.).</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
